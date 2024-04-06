@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Viewer</title>
+    <!-- Include PDF.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
+    <style>
+        #pdf-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #take-test-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000; /* Ensure the button is above the overlay */
+        }
+
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: 999;
+        }
+
+        #pdf-viewer {
+            width: 100%;
+            height: calc(100% - 40px); /* Adjust height to accommodate button */
+        }
+
+        .page {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Email: {{ email }}</h1>
+    <form id="test-form" action="/take_test" method="post">
+        {% csrf_token %}
+        <div id="pdf-container">
+            <h2>PDF Viewer</h2>
+            <!-- Placeholder for PDF pages -->
+            <div id="pages"></div>
+            <button id="take-test-btn" type="submit">Take Test</button>
+        </div>
+        <!-- Overlay div to prevent direct interaction with PDF -->
+        <div id="overlay"></div>
+        <input type="hidden" name="email" value="{{ email }}">
+        <input type="hidden" name="filename" value="{{ filename }}">
+    </form>
+    <script>
+        // Load PDF
+        const pdfData = atob("{{ pdf_content }}"); // Decode base64-encoded PDF content
+        const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+
+        // Render PDF
+        loadingTask.promise.then(function(pdf) {
+            const pagesContainer = document.getElementById('pages');
+
+            // Iterate through each page
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                pdf.getPage(pageNumber).then(function(page) {
+                    const div = document.createElement('div');
+                    div.className = 'page';
+                    pagesContainer.appendChild(div);
+
+                    // Render page on canvas
+                    const canvas = document.createElement('canvas');
+                    div.appendChild(canvas);
+                    const context = canvas.getContext('2d');
+
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: viewport
+                    };
+
+                    page.render(renderContext);
+                });
+            }
+        });
+
+        // Disable right-click context menu
+        window.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+
+        // Prevent text selection
+        document.getElementById('pdf-container').addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts (optional)
+        document.getElementById('pdf-container').addEventListener('keydown', function (e) {
+            e.preventDefault();
+        });
+
+        // Functionality for "Take Test" button
+        document.getElementById('take-test-btn').addEventListener('click', function() {
+            // Here you can add any additional logic you need when the button is clicked
+            alert('Take Test button clicked!');
+        });
+    </script>
+</body>
+</html>

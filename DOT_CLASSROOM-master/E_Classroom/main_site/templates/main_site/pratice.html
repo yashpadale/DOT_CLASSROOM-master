@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Input Timer</title>
+<style>
+  #countdown {
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+  }
+  #warningContainer {
+    display: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: orange;
+  }
+</style>
+</head>
+<body>
+<h1 id="displayText">Hare Krishna</h1>
+<input type="text" id="inputField" placeholder="Type something...">
+<div id="countdown">5</div>
+<div id="warningContainer"></div>
+
+<script>
+function setupInputTimer(inputId, displayTextId, warningContainerId) {
+  let timer;
+  let countdown = 5;
+  let warningTimer;
+  let inputField = document.getElementById(inputId);
+  let displayText = document.getElementById(displayTextId);
+  let warningContainer = document.getElementById(warningContainerId);
+
+  // Function to start the timer
+  function startTimer() {
+    countdown = 5;
+    document.getElementById('countdown').innerText = countdown;
+    timer = setInterval(() => {
+      countdown--;
+      document.getElementById('countdown').innerText = countdown;
+      if (countdown === 0) {
+        console.log(displayText.textContent);
+        clearInterval(timer);
+        setTimeout(resetProcess, 1000); // Reset process after 1 second
+      } else if (countdown <= 3) {
+        showWarning();
+      }
+    }, 1000);
+  }
+
+  // Function to show warning container
+  function showWarning() {
+    warningContainer.style.display = 'block';
+    let warningCountdown = 3;
+    warningContainer.innerText = `Countdown: ${warningCountdown}`;
+    warningTimer = setInterval(() => {
+      warningCountdown--;
+      if (warningCountdown >= 0) {
+        warningContainer.innerText = `Countdown: ${warningCountdown}`;
+      }
+      if (warningCountdown === 0) {
+        clearInterval(warningTimer);
+        warningContainer.style.display = 'none';
+      }
+    }, 1000);
+  }
+
+  // Function to reset the timer
+  function resetTimer() {
+    clearInterval(timer);
+    clearInterval(warningTimer);
+    warningContainer.style.display = 'none';
+    startTimer();
+  }
+
+  // Function to reset the entire process
+  function resetProcess() {
+    clearInterval(warningTimer);
+    warningContainer.style.display = 'none';
+    startTimer();
+  }
+
+  // Event listener for input field
+  inputField.addEventListener('input', resetTimer);
+
+  // Start the timer initially
+  startTimer();
+}
+
+// Call the setupInputTimer function with input and display text IDs
+setupInputTimer('inputField', 'displayText', 'warningContainer');
+</script>
+
+</body>
+</html>

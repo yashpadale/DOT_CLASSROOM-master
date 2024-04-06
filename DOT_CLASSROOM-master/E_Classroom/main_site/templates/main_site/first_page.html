@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, World!</title>
+    <style>
+        header {
+            background-color: #333; /* Background color of the title bar */
+            color: white; /* Text color of the title bar */
+            padding: 10px; /* Padding around the title bar content */
+            display: flex; /* Use flexbox */
+            justify-content: space-between; /* Align children to the start and end of the container */
+            align-items: center; /* Center vertically */
+        }
+        button {
+            margin-left: auto; /* Push the button to the right */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Title Bar</h1>
+        <button id="loginButton">Log in</button>
+    </header>
+    <div>
+        <h1>Hello, World!</h1>
+        <p>This is a simple HTML file.</p>
+    </div>
+
+    <script>
+        // Get the login button element
+        var loginButton = document.getElementById('loginButton');
+
+        // Add event listener to the login button
+        loginButton.addEventListener('click', function() {
+            // Redirect to the login page
+            window.location.href = '/login/';
+        });
+    </script>
+</body>
+</html>

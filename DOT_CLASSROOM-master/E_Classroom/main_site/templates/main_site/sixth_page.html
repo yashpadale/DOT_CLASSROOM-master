@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sixth Page</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        /* Style for the action buttons container */
+        /* Container for action buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center; /* Align buttons to the center horizontally */
+    align-items: center; /* Align buttons to the center vertically */
+    background-color: white;
+    padding: 10px; /* Add padding to create some space around buttons */
+}
+
+/* Style for the buttons inside the container */
+.action-buttons button {
+    margin: 0 5px; /* Add margin between buttons */
+    padding: 8px 16px; /* Add padding to buttons */
+    border: none; /* Remove default button border */
+    border-radius: 4px; /* Add border radius for rounded corners */
+    background-color: grey; /* Button background color */
+    color: black; /* Button text color */
+    font-size: 14px; /* Button text size */
+    font-weight: bold; /* Button text bold */
+    cursor: pointer; /* Show pointer cursor on hover */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */
+}
+
+/* Hover effect for buttons */
+.action-buttons button:hover {
+    background-color: rgba(255, 255, 255, 0.8); /* Lighten button background color on hover */
+    color: Grey; /* Change text color on hover */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Add shadow effect on hover */
+}
+        .thebutton {
+    /* Your button styles */
+    background-color: purple; /* Purple background color */
+    color: white; /* White text color */
+    border: 2px solid purple; /* Purple border */
+    border-radius: 20px; /* Border radius for circular corners */
+    padding: 10px 20px; /* Padding for the button */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transition effect */
+    float: right; /* Float the button to the right */
+    margin-right: 20px; /* Add some right margin for spacing */
+}
+
+
+/* Hover effect for the button */
+.thebutton:hover {
+    background-color: #6a0dad; /* Darker shade of purple on hover */
+    border-color: #6a0dad; /* Darker shade of purple for border on hover */
+}
+
+    </style>
+</head>
+<body>
+    <h1>Class Data</h1>
+     <form action="Login_page" method="get">
+    <button type="submit" class="thebutton">Back to Login</button>
+</form>
+    <p>Email: {{ email }}</p>
+    <form action="{% url 'create_classroom' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" id="emailInput" name="email" value="{{ email }}">
+        <button type="submit">Create Classroom +</button>
+    </form>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <!-- Add column headers -->
+
+            </tr>
+        </thead>
+        <tbody>
+            {{ class_data|safe }}
+        </tbody>
+    </table>
+
+
+<script>
+function submitForm() {
+    // Submit the form
+    document.getElementById("emailForm").submit();
+}
+
+    // Function to get CSRF token from cookies
+    function getCSRFToken() {
+        var csrfToken = null;
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith('csrftoken=')) {
+                csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+                break;
+            }
+        }
+        return csrfToken;
+    }
+
+    // Function to add buttons to each row of the table
+    function addButtonsToTable() {
+        let tr = document.querySelectorAll("table tbody tr");
+        Array.from(tr).forEach(function(trArray) {
+            let exploreButton = document.createElement("button");
+            exploreButton.textContent = "Explore";
+            exploreButton.addEventListener("click", function() {
+                // Handle Explore button click
+                console.log("Explore clicked");
+                // Extract email from the paragraph element
+                let email = document.querySelector("p").textContent.trim().replace("Email: ", "");
+                // Extract row data from the table row
+                let rowData = [];
+                Array.from(trArray.cells).slice(0, -1).forEach(function(cell) { // Exclude the last cell which contains buttons
+                    rowData.push(cell.textContent.trim()); // Extract text content and trim whitespace
+                });
+                // Call function to submit data to explore URL
+                exploreRow(email, rowData);
+            });
+
+            let deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", function() {
+                // Handle Delete button click
+                console.log("Delete clicked");
+                deleteRow(trArray); // Call deleteRow function passing the clicked row
+            });
+
+            let td = document.createElement("td");
+            td.classList.add("action-buttons");
+            td.appendChild(exploreButton);
+            td.appendChild(deleteButton);
+            trArray.appendChild(td);
+        });
+    }
+
+    // Function to delete row and submit data to URL
+    function deleteRow(row) {
+        // Extract email value from the paragraph element
+        let email = document.querySelector("p").textContent.trim().replace("Email: ", "");
+
+        // Extract row data from the table row
+        let rowData = [];
+        Array.from(row.cells).slice(0, -1).forEach(function(cell) { // Exclude the last cell which contains buttons
+            rowData.push(cell.textContent.trim()); // Extract text content and trim whitespace
+        });
+
+        // Create a form element
+        let form = document.createElement('form');
+        form.method = 'POST'; // or 'GET'
+        form.action = 'delete-url'; // URL where you want to submit the data
+
+        // Append CSRF token
+        let csrfTokenInput = document.createElement('input');
+        csrfTokenInput.type = 'hidden';
+        csrfTokenInput.name = 'csrfmiddlewaretoken';
+        csrfTokenInput.value = getCSRFToken();
+        form.appendChild(csrfTokenInput);
+
+        // Create hidden input field for email
+        let emailInput = document.createElement('input');
+        emailInput.type = 'hidden';
+        emailInput.name = 'email';
+        emailInput.value = email;
+        form.appendChild(emailInput);
+
+        // Create hidden input fields for each data item
+        rowData.forEach(function(dataItem) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data[]'; // Use array notation if submitting multiple rows
+            input.value = dataItem;
+            form.appendChild(input);
+        });
+
+        // Append form to document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    // Function to explore row and submit data to URL
+    function exploreRow(email, rowData) {
+        // Create a form element
+        let form = document.createElement('form');
+        form.method = 'POST'; // or 'GET'
+        form.action = 'explore-url'; // URL where you want to submit the data
+
+        // Append CSRF token
+        let csrfTokenInput = document.createElement('input');
+        csrfTokenInput.type = 'hidden';
+        csrfTokenInput.name = 'csrfmiddlewaretoken';
+        csrfTokenInput.value = getCSRFToken();
+        form.appendChild(csrfTokenInput);
+
+        // Create hidden input field for email
+        let emailInput = document.createElement('input');
+        emailInput.type = 'hidden';
+        emailInput.name = 'email';
+        emailInput.value = email;
+        form.appendChild(emailInput);
+
+        // Create hidden input fields for each data item
+        rowData.forEach(function(dataItem) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data[]'; // Use array notation if submitting multiple rows
+            input.value = dataItem;
+            form.appendChild(input);
+        });
+
+        // Append form to document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    // Add buttons to the table when the page loads
+    window.onload = function() {
+        addButtonsToTable();
+        var email = "{{email}}";
+    document.getElementById("emailInput").value = email;
+    };
+</script>
+
+
+</body>
+</html>

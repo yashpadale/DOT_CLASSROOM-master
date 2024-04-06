@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h3, h4 {
+            margin: 10px 0;
+        }
+
+        .questions-container {
+            background-color: #f5f0ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .questions {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .questions li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center; /* Align items vertically */
+        }
+
+        .question {
+            font-weight: bold;
+            color: #333;
+            flex: 1; /* Take remaining space */
+        }
+
+        .answer {
+            color: #666;
+            margin-right: 10px;
+        }
+
+        .number-input {
+            width: 50px; /* Adjust width as needed */
+        }
+        .custom-button {
+            padding: 10px 20px; /* Adjust padding as needed */
+            border: 2px solid #ffcccc; /* Light pink border color */
+            border-radius: 20px; /* Creates a rectangular circular border */
+            background-color: pink; /* Transparent background */
+            color: black; /* Light pink text color */
+            font-size: 16px; /* Adjust font size as needed */
+            cursor: pointer; /* Cursor style */
+            transition: all 0.3s ease; /* Smooth transition effect */
+        }
+
+        .custom-button:hover {
+            background-color: #ffcccc; /* Light pink background color on hover */
+            color: #fff; /* White text color on hover */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>{{ email }}</h1>
+    <h1>{{ teacher_class }}</h1>
+    <h1>{{ teacher_sub }}</h1>
+
+    <h3>student_email - {{ student_email }}</h3>
+    <h3>student_roll_number - {{ student_roll_number }}</h3>
+    <h3>student_attention_score - {{ student_attention_score }}</h3>
+    <h3>student_watch_time - {{ student_watch_time }}</h3>
+    <h3>doc_name - {{ doc_name }}</h3>
+    <h3>doc_upload_time - {{ doc_upload_time }}</h3>
+    <h3>doc_upload_date - {{ doc_upload_date }}</h3>
+    <h3>student_attempt_time - {{ student_attempt_time }}</h3>
+    <h3>student_attempt_date - {{ student_attempt_date }}</h3>
+
+<div class="questions-container">
+    <h4>Questions and Answers:</h4>
+    <ul class="questions">
+        {% for question, answer in questions.items %}
+        <div class="question">{{ question }}</div>
+        <li>
+            <div class="answer">{{ answer.0 }}</div>
+            <input type="text" class="number-input" value="{{ answer.1 }}">
+            <h2> / </h2>
+            <span>{{ answer.2 }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+<button id="submit-button" class="custom-button">Submit</button>
+</div>
+
+
+
+</div>
+<script>
+function getCSRFToken() {
+        var csrfToken = null;
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith('csrftoken=')) {
+                csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+                break;
+            }
+        }
+        return csrfToken;
+    }
+  function sendData() {
+    var email = "{{ email }}";
+    var teacherClass = "{{ teacher_class }}";
+    var teacherSub = "{{ teacher_sub }}";
+    var studentEmail = "{{ student_email }}";
+    var studentRollNumber = "{{ student_roll_number }}";
+    var studentAttentionScore = "{{ student_attention_score }}";
+    var studentWatchTime = "{{ student_watch_time }}";
+    var docName = "{{ doc_name }}";
+    var docUploadTime = "{{ doc_upload_time }}";
+    var docUploadDate = "{{ doc_upload_date }}";
+    var studentAttemptTime = "{{ student_attempt_time }}";
+    var studentAttemptDate = "{{ student_attempt_date }}";
+
+    console.log("Email:", email); // Ensure values are assigned correctly
+    console.log("Teacher Class:", teacherClass);
+    console.log("Teacher Subject:", teacherSub);
+    console.log("Student Email:", studentEmail);
+    console.log("Student Roll Number:", studentRollNumber);
+    console.log("Student Attention Score:", studentAttentionScore);
+    console.log("Student Watch Time:", studentWatchTime);
+    console.log("Document Name:", docName);
+    console.log("Document Upload Time:", docUploadTime);
+    console.log("Document Upload Date:", docUploadDate);
+    console.log("Student Attempt Time:", studentAttemptTime);
+    console.log("Student Attempt Date:", studentAttemptDate);
+
+var answers = [];
+var inputs = document.querySelectorAll('.number-input');
+var questions = document.querySelectorAll('.questions-container .question');
+var answersText = document.querySelectorAll('.questions-container .answer');
+var additionalTexts = document.querySelectorAll('.questions-container span');
+for (var i = 0; i < inputs.length; i++) {
+    var question = questions[i].textContent.trim(); // Fetch question text
+    var answer = answersText[i].textContent.trim(); // Fetch answer text
+    var inputValue = inputs[i].value;
+    var additionalText = additionalTexts[i].textContent.trim(); // Fetch additional text from span
+    answers.push({
+        question: question,
+        answer: answer,
+        inputValue: inputValue,
+        additionalText: additionalText
+    });
+}
+
+
+
+
+    var csrfToken = getCSRFToken(); // Get CSRF token using the function
+
+    var data = {
+        email: email,
+        teacherClass: teacherClass,
+        teacherSub: teacherSub,
+        studentEmail: studentEmail,
+        studentRollNumber: studentRollNumber,
+        studentAttentionScore: studentAttentionScore,
+        studentWatchTime: studentWatchTime,
+        docName: docName,
+        docUploadTime: docUploadTime,
+        docUploadDate: docUploadDate,
+        studentAttemptTime: studentAttemptTime,
+        studentAttemptDate: studentAttemptDate,
+        answers: answers
+    };
+
+    console.log("Data to be sent:", data); // Check the data before sending
+        console.log("Data to be sent:", answers); // Check the data before sending
+
+    fetch('give_marks', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken  // Include CSRF token in headers
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+    console.log('Success:', data);
+    if (data.redirect_url) {
+    window.location.href = `${data.redirect_url}?email=${data.additional_data.email}&teacher_class=${data.additional_data.teacher_class}&teacher_sub=${data.additional_data.teacher_sub}`;
+
+        // Access and use additional data on the new page
+        console.log('Additional data:', data.additional_data);    }
+})
+    .catch((error) => {
+        console.error('Error:', error);
+        // Optionally, you can handle error here
+    });
+}
+
+
+document.getElementById('submit-button').addEventListener('click', function() {
+    sendData();
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registration</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background:black;
+                background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0);
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -70%);
+        width: 500px;
+        background-color:black;
+        background-repeat: no-repeat;
+                border: 1px solid white;
+
+    }
+
+    .tabs {
+        display: flex;
+        border-bottom: 2px solid black;
+    }
+
+    .tab {
+        flex: 1;
+        text-align: center;
+        padding: 15px;
+        cursor: pointer;
+        background-color: #f0f0f0;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .tab.active {
+        background-color: black;
+        color: white;
+
+    }
+
+    .login-forms {
+        padding: 20px;
+    }
+
+    .login-form {
+        display: none;
+    }
+
+    .login-form.active {
+        display: block;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    button {
+        display: block;
+        width: calc(100% - 32px);
+        padding: 12px;
+        margin: 6px 0;
+        border: 1px solid white;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: black;
+    }
+
+    .action-buttons {
+        text-align: center;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .action-buttons button {
+        margin: 0 5px;
+    }
+
+    .login {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0;
+    }
+
+    .container1 {
+        height: 100vh;
+        width: 100%;
+        background-color: black;
+        background-size: cover;
+    }
+
+</style>
+</head>
+<body>
+<div class="container1">
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="showLoginForm('student')">Student Login</div>
+            <div class="tab" onclick="showLoginForm('teacher')">Teacher Login</div>
+        </div>
+        <div class="login-forms">
+            <form id="studentForm" class="login-form active" action="/student-login-url/" method="post">
+                {% csrf_token %}
+                <input type="text" name="email" placeholder="Enter your Email id">
+                <input type="password" name="roll_number" placeholder="Enter your roll number">
+                <button type="submit" class="login">Login</button>
+            </form>
+            <form id="teacherForm" class="login-form" action="/teacher-login-url/" method="post">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Enter Username">
+                <input type="password" name="password" placeholder="Enter Password">
+                <button type="submit" class="login">Login</button>
+                <div class="action-buttons">
+                    <button type="button" onclick="registerTeacher()">New Registration</button>
+                    <button type="button" onclick="forgotPassword()">Forgot Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function showLoginForm(formType) {
+        const studentForm = document.getElementById('studentForm');
+        const teacherForm = document.getElementById('teacherForm');
+        if (formType === 'student') {
+            studentForm.classList.add('active');
+            teacherForm.classList.remove('active');
+            document.querySelector('.tab.active').classList.remove('active');
+            document.querySelectorAll('.tab')[0].classList.add('active');
+            // Set form action for student login
+            studentForm.action = "/student-login-url";
+        } else if (formType === 'teacher') {
+            studentForm.classList.remove('active');
+            teacherForm.classList.add('active');
+            document.querySelector('.tab.active').classList.remove('active');
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            // Set form action for teacher login
+            teacherForm.action = "/teacher-login-url";
+        }
+    }
+    function registerTeacher() {
+        // Redirect to the teacher registration page
+        window.location.href = '/teacher-registration-url';
+    }
+
+    function forgotPassword() {
+        window.location.href = 'forget-password';
+    }
+</script>
+</body>
+</html>

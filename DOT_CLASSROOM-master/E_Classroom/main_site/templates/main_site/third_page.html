@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAIR TRANSPLANT</title>
+   <style>
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+.container{
+    width: 110%;
+    height: 100vh;
+    background-image: linear-gradient(rgba(0,0,50,0.9),rgba(0,0,50,0.7)),url(hair1.jpg);
+    background-position: center;
+    background-size: cover;
+    position: relative;
+}
+
+/* body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 20px;
+} */
+
+.form-box h1{
+    font-size: 30px;
+    margin-bottom: 50px;
+    color: #3c00a0;
+    position: relative;
+}
+
+form {
+
+        width: 90%;
+        max-width: 450px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        background: #fff;
+        padding: 50px 60px 70px;
+        text-align: center;
+
+}
+
+.input-field{
+    background: #eaeaea;
+    margin: 15px 0;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    max-height: 65px;
+    transition: max-height 0.5s;
+    overflow: hidden;
+}
+input{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 18px 15px;
+}
+
+.input-field i{
+    margin-left: 15px;
+    color: #999;
+}
+       .button {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid  #fff;
+            border-radius: 20px; /* Adjust as needed for the circular effect */
+            background-color: purple;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+   </style>
+    <script src="https://kit.fontawesome.com/9df2b0d2a2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container">
+    <div class="form-box">
+        <form action="/send_otp" method="post">
+            {% csrf_token %}
+            <h1>LOGIN</h1>
+            <div class="input-group">
+                <div class="input-field" id="nameField">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="name" name="name" required placeholder="Mail Id" autocomplete="off">
+                </div>
+                <div class="btn-field">
+                    <input type="submit" class="button" value="Send OTP">
+                </div>
+            </div>
+            <br>
+    </form>
+    </div>
+</div>
+</body>
+</html>

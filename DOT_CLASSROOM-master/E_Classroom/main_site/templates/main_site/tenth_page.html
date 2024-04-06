@@ -1,0 +1,345 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+         body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      position: fixed;
+      top: 0;
+      right: -300px; /* Initially outside the viewport */
+      width: 300px;
+      height: 100%;
+      background-color: #f0f0f0;
+      transition: right 0.3s ease;
+      z-index: 1000; /* Ensure it's above other content */
+    }
+
+    .content {
+      padding: 20px;
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    #closeBtn:focus {
+      outline: none;
+    }
+
+    #openBtn {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      width: 50px; /* Adjust width as needed */
+      height: 150px; /* Adjust height as needed */
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      z-index: 1000; /* Ensure it's above other content */
+      border-radius: 5px 0 0 5px;
+    }
+
+    #openBtn:focus {
+      outline: none;
+    }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+/* Container for the chat */
+.chat {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Profile image */
+.profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Message from the user */
+.message {
+  background-color: #e6e6e6;
+  padding: 10px;
+  border-radius: 10px;
+  margin-right: auto;
+}
+
+/* Username */
+.user {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Close button */
+.close-button {
+  background-color: transparent;
+  border: none;
+  color: #999;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.close-button:hover {
+  color: #333;
+}
+#openBtnContainer {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#openBtnText {
+}
+.profile1 {
+  display: flex;
+  align-items: center;
+}
+
+.profile1 img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #fff; /* Add a white border for contrast */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a shadow effect */
+}
+
+.user1 {
+  margin-left: 10px; /* Add some spacing between the image and user text */
+  font-weight: bold;
+  color: #333; /* Change text color if needed */
+}
+        h1 {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+ .explore-button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            border-radius: 12px;
+            border: 2px solid #4CAF50;
+            transition: background-color 0.3s ease;
+        }
+
+        .explore-button:hover {
+            background-color: white;
+            color: #4CAF50;
+        }
+
+        /* Adjust table cell alignment */
+        .action-buttons {
+            text-align: center;
+        }
+
+    </style>
+
+
+
+</head>
+{% load static %}
+
+<div class="body"></div>
+<div class="chat">
+  <div class="profile">
+    <img src="{% static image_path %}" alt="Profile Image">
+  </div>
+  <div class="message">
+    {{ TEXT }}
+  </div>
+  <div class="user">
+    {{ text }}
+
+  </div>
+    <div id="openBtnContainer">
+  <span id="openBtnText">See other students performance</span>
+</div>
+
+  <button class="close-button" onclick="closeNotification1()">×</button>
+</div>
+
+
+
+<div id="slideContainer" class="container">
+    <h1>Scoreboard</h1>
+    <button id="closeBtn">&times;</button>
+    <div class="content">
+        {% for item in data %}
+        <p>Rank: {{ forloop.counter }}</p>
+            <div class="profile1">
+                <img src="{% static item.image_path %}" alt="Profile Image">
+                <div class="user1">
+
+                    {{ item.text }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+  </div>
+</div>
+
+
+
+<body onload="addButtonsToTable()">
+    <h1>Welcome - {{ email }}</h1>
+    <h1>{{ classroom }}</h1>
+    <h1>{{ subject }}</h1>
+
+  <table id="myTable">
+        <tbody style="border-collapse: collapse; width: 100%;">
+            {{ class_data|safe }}
+        </tbody>
+    </table>
+
+    <script>
+
+        function closeNotification1() {
+    var chatNotification = document.querySelector('.chat');
+    chatNotification.style.display = 'none';
+}
+
+   document.getElementById('openBtnContainer').addEventListener('click', function() {
+    document.getElementById('slideContainer').style.right = '0';
+});
+
+document.getElementById('closeBtn').addEventListener('click', function() {
+    document.getElementById('slideContainer').style.right = '-300px'; // Slide back out
+});
+
+// Close the container if user clicks outside
+window.addEventListener('click', function(event) {
+    var slideContainer = document.getElementById('slideContainer');
+    var openBtnContainer = document.getElementById('openBtnContainer');
+
+    if (event.target !== slideContainer && event.target !== openBtnContainer) {
+        slideContainer.style.right = '-300px'; // Slide back out
+    }
+});
+
+function closeNotification() {
+    var chatNotification = document.getElementById('slideContainer');
+    chatNotification.style.right = '-300px';
+}
+
+          function getCSRFToken() {
+        var csrfToken = null;
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith('csrftoken=')) {
+                csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+                break;
+            }
+        }
+        return csrfToken;
+    }
+         function exploreRow(email, rowData) {
+        // Create a form element
+        let form = document.createElement('form');
+        form.method = 'POST'; // or 'GET'
+        form.action = 'veiw-document'; // URL where you want to submit the data
+
+        // Append CSRF token
+        let csrfTokenInput = document.createElement('input');
+        csrfTokenInput.type = 'hidden';
+        csrfTokenInput.name = 'csrfmiddlewaretoken';
+        csrfTokenInput.value = getCSRFToken();
+        form.appendChild(csrfTokenInput);
+
+        // Create hidden input field for email
+        let emailInput = document.createElement('input');
+        emailInput.type = 'hidden';
+        emailInput.name = 'email';
+        emailInput.value = email;
+        form.appendChild(emailInput);
+
+        // Create hidden input fields for each data item
+        rowData.forEach(function(dataItem) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data[]'; // Use array notation if submitting multiple rows
+            input.value = dataItem;
+            form.appendChild(input);
+        });
+
+        // Append form to document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+     function addButtonsToTable() {
+            let tr = document.querySelectorAll("table tbody tr");
+            Array.from(tr).forEach(function(trArray) {
+                let exploreButton = document.createElement("button");
+                exploreButton.textContent = "Explore";
+                exploreButton.classList.add("explore-button");
+                exploreButton.addEventListener("click", function() {
+                    // Handle Explore button click
+                    console.log("Explore clicked");
+                    // Extract email from the paragraph element
+                    let email = "{{ email }}";
+
+                    // Extract row data from the table row
+                    let rowData = [];
+                    Array.from(trArray.cells).slice(0, -1).forEach(function(cell) { // Exclude the last cell which contains buttons
+                        rowData.push(cell.textContent.trim()); // Extract text content and trim whitespace
+                    });
+                    // Call function to submit data to explore URL
+                    exploreRow(email, rowData);
+                });
+
+                let td = document.createElement("td");
+                td.classList.add("action-buttons");
+                td.appendChild(exploreButton);
+                trArray.appendChild(td);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Data</h1>
+    <ul>
+        <li>Email: {{ email }}</li>
+        <li>Teacher Class: {{ teacher_class }}</li>
+        <li>Teacher Subject: {{ teacher_sub }}</li>
+        <li>Document Name: {{ document_name }}</li>
+        <li>AVG Watch Time: {{ AVG_watchtime }}</li>
+        <li>AVG Attention Score: {{ AVG_attention_score }}</li>
+        <li>AVG Student Watch Time: {{ AVGstudent_watch_time }}</li>
+        <li>Document Name: {{ doc_name }}</li>
+        <li>Document Upload Time: {{ doc_upload_time }}</li>
+        <li>Document Upload Date: {{ doc_upload_date }}</li>
+    </ul>
+
+    <h1>Bar Charts</h1>
+
+    <!-- Create canvas elements dynamically -->
+    <div id="chartsContainer"></div>
+
+    <script>
+        var barData = {{ barData|safe }};
+        var chartsContainer = document.getElementById('chartsContainer');
+
+// Function to create a bar chart for a given data set
+function createBarChart(data, container) {
+    var canvas = document.createElement('canvas');
+    container.appendChild(canvas);
+    var ctx = canvas.getContext('2d');
+
+    // Extracting keys and values from the data
+    var labels = Object.keys(data);
+    var values = Object.values(data);
+
+    // Calculating remaining percentages
+    var remainingValues = values.map(function(value) {
+        return 100 - value; // Assuming the maximum value is 100%
+    });
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Correct',
+                data: values,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)', // Blue color for correct answers
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Incorrect',
+                data: remainingValues,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)', // Red color for incorrect answers
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.dataset.label + ': ' + context.parsed.y.toFixed(0) + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+
+        // Iterate over the keys of barData and create a chart for each
+        for (var key in barData) {
+            if (barData.hasOwnProperty(key)) {
+                var container = document.createElement('div');
+                container.classList.add('chartContainer');
+                chartsContainer.appendChild(container);
+                createBarChart(barData[key], container);
+            }
+        }
+    </script>
+</body>
+</html>

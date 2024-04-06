@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* Style the tab navigation */
+        .tab {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+
+        /* Float the list items side by side */
+        .tab li {
+            float: left;
+        }
+
+        /* Style the links inside the tabs */
+        .tab li a {
+            display: inline-block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        /* Change background color of tabs on hover */
+        .tab li a:hover {
+            background-color: #ddd;
+        }
+
+        /* Create a selected tablink class */
+        .tab li a.active {
+            background-color: #ccc;
+        }
+
+        /* Hide tab content by default */
+        .tabcontent {
+            display: none;
+        }
+
+        /* Show active tab content */
+        .tabcontent.active {
+            display: block;
+        }
+         table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .container {
+      width:500px;
+      height:500px;
+    }
+    .image {
+        max-width: 250px;
+        height: 250px;
+    }
+    .circular {
+    border-radius: 90%;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+}
+        /* Style for the action buttons container */
+        .action-buttons {
+            display: flex;
+            justify-content: center; /* Align buttons to the center horizontally */
+            align-items: center; /* Align buttons to the center vertically */
+            background-color: white;
+            padding: 10px; /* Add padding to create some space around buttons */
+        }
+
+        /* Style for the buttons inside the container */
+        .action-buttons button {
+            margin: 0 5px; /* Add margin between buttons */
+            padding: 8px 16px; /* Add padding to buttons */
+            border: none; /* Remove default button border */
+            border-radius: 4px; /* Add border radius for rounded corners */
+            background-color: silver; /* Button background color */
+            color: grey; /* Button text color */
+            font-size: 14px; /* Button text size */
+            font-weight: bold; /* Button text bold */
+            cursor: pointer; /* Show pointer cursor on hover */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */
+        }
+
+        /* Hover effect for buttons */
+        .action-buttons button:hover {
+            background-color:black; /* Lighten button background color on hover */
+            color: white; /* Change text color on hover */
+        }
+        /* Styling for the button */
+.thebutton {
+    /* Your button styles */
+    background-color: purple; /* Purple background color */
+    color: white; /* White text color */
+    border: 2px solid purple; /* Purple border */
+    border-radius: 20px; /* Border radius for circular corners */
+    padding: 10px 20px; /* Padding for the button */
+    cursor: pointer; /* Cursor style */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transition effect */
+    float: right; /* Float the button to the right */
+    margin-right: 20px; /* Add some right margin for spacing */
+}
+
+
+/* Hover effect for the button */
+.thebutton:hover {
+    background-color: #6a0dad; /* Darker shade of purple on hover */
+    border-color: #6a0dad; /* Darker shade of purple for border on hover */
+}
+
+
+    </style>
+</head>
+<body>
+<form action="Login_page" method="get">
+    <button type="submit" class="thebutton">Back to Login</button>
+</form>
+<h1> Welcome - {{email}} - {{roll_number}}</h1>
+
+
+<ul class="tab">
+    <li><a href="#" class="tablinks active" onclick="openTab(event, 'Tab1')">See Enrolled Classes</a></li>
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Tab2')">Submit Assignment</a></li>
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Tab3')">Profile</a></li>
+
+</ul>
+
+
+<div id="Tab1" class="tabcontent active">
+     <table id="myTable">
+        <thead>
+            <tr>
+
+            </tr>
+        </thead>
+        <tbody>
+            {{ class_data|safe }}
+        </tbody>
+    </table>
+</div>
+
+<div id="Tab2" class="tabcontent">
+    <h3>Tab 2 Content</h3>
+    <p>This is the content for Tab 2.</p>
+</div>
+
+<div id="Tab3" class="tabcontent">
+    <h3>Tab 3 Content</h3>
+    <p>This is the content for Tab 3.</p>
+</div>
+
+<script>
+
+
+
+// Function to trigger file input click when "Change Photo" button is clicked
+function openFileBrowser() {
+    document.getElementById('fileInput_image').click();
+}
+
+// Function to handle file input change event
+function handleFileInputChange(event) {
+    const file = event.target.files[0]; // Get the selected file
+    const email = document.getElementById('emailValue').textContent; // Get email from the span
+    console.log("This is email", email);
+
+    // Retrieve CSRF token from cookies using the getCSRFToken function
+    const csrfToken = getCSRFToken();
+
+    // Create FormData object and append file and email data
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('email', email);
+
+    // Append CSRF token to the FormData object
+    formData.append('csrfmiddlewaretoken', csrfToken);
+
+    // Send file data to the server using Fetch API
+    fetch('/your-profile-photo/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+    // Handle response from the server
+    console.log(data); // Log the data received from the server
+    const imageUrl = data.image_url; // Get the image URL from the response
+    const imageElement = document.querySelector('.image.circular'); // Get the <img> element
+    if (imageUrl && imageElement) {
+        imageElement.src = imageUrl; // Set the src attribute of the <img> element to the image URL
+    } else {
+        console.error('Image URL or image element not found in the response');
+    }
+})
+
+
+    .catch(error => {
+        // Handle error
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+// Callback function to observe changes in the DOM
+function observeDOMChanges() {
+    const targetNode = document.body;
+    const config = { childList: true, subtree: true };
+
+    const observer = new MutationObserver((mutationsList, observer) => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                const fileInput = document.getElementById('fileInput_image');
+                if (fileInput) {
+                    fileInput.addEventListener('change', handleFileInputChange);
+                    observer.disconnect(); // Stop observing once the file input is found
+                    break;
+                }
+            }
+        }
+    });
+
+    observer.observe(targetNode, config);
+}
+
+// Call the function to observe DOM changes
+observeDOMChanges();
+
+// Function to handle "Change Photo" button click
+function changePhoto() {
+    alert("Changing Your Profile Photo");
+    openFileBrowser(); // Call openFileBrowser() function to trigger file input click
+}
+
+// Function to retrieve CSRF token from cookies
+function getCSRFToken() {
+    var csrfToken = null;
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.startsWith('csrftoken=')) {
+            csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+            break;
+        }
+    }
+    return csrfToken;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function submitForm() {
+    // Submit the form
+    document.getElementById("emailForm").submit();
+}
+
+    // Function to get CSRF token from cookies
+    function getCSRFToken() {
+        var csrfToken = null;
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith('csrftoken=')) {
+                csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+                break;
+            }
+        }
+        return csrfToken;
+    }
+
+    // Function to add buttons to each row of the table
+    function addButtonsToTable() {
+        let tr = document.querySelectorAll("table tbody tr");
+        Array.from(tr).forEach(function(trArray) {
+            let exploreButton = document.createElement("button");
+            exploreButton.textContent = "Explore";
+            exploreButton.addEventListener("click", function() {
+                // Handle Explore button click
+                console.log("Explore clicked");
+                // Extract email from the paragraph element
+                let email = "{{email}}";
+
+                // Extract row data from the table row
+                let rowData = [];
+                Array.from(trArray.cells).slice(0, -1).forEach(function(cell) { // Exclude the last cell which contains buttons
+                    rowData.push(cell.textContent.trim()); // Extract text content and trim whitespace
+                });
+                // Call function to submit data to explore URL
+                exploreRow(email, rowData);
+            });
+
+
+
+            let td = document.createElement("td");
+            td.classList.add("action-buttons");
+            td.appendChild(exploreButton);
+
+            trArray.appendChild(td);
+        });
+    }
+
+ function addButtonsToTable1(tabName) {
+    // Check if the tabName is Tab2
+    if (tabName !== 'Tab2') {
+        // If not Tab2, do nothing
+        return;
+    }
+
+    let tr = document.querySelectorAll("table tbody tr");
+    Array.from(tr).forEach(function(trArray) {
+        // Check if buttons are already added to the row
+        if (trArray.querySelector(".action-buttons")) {
+            // If buttons already exist, return
+            return;
+        }
+
+        // Extract the date value from the last cell of the row
+        let dateString = trArray.cells[trArray.cells.length - 1].textContent.trim();
+        let rowDate = new Date(dateString);
+
+        // Check if the row date is before today's date
+        let today = new Date();
+        if (rowDate > today) {
+            let exploreButton = document.createElement("button");
+            exploreButton.textContent = "Take Test";
+            exploreButton.addEventListener("click", function() {
+                // Handle Explore button click
+                console.log("Explore clicked");
+                // Extract email from the paragraph element
+                let email = "{{ email }}";
+                let rollNumber="{{roll_number}}";
+                console.log("HARE_KRISHNA"+rollNumber+email)
+                // Extract row data from the table row
+                let rowData = [];
+                Array.from(trArray.cells).slice(0, -1).forEach(function(cell) { // Exclude the last cell which contains buttons
+                    rowData.push(cell.textContent.trim()); // Extract text content and trim whitespace
+                });
+                // Call function to submit data to explore URL
+                take_test(email,rollNumber, rowData);
+            });
+
+            let td = document.createElement("td");
+            td.classList.add("action-buttons");
+            td.appendChild(exploreButton);
+
+            trArray.appendChild(td);
+        }
+    });
+}
+function take_test(email, rollNumber, rowData) {
+    // Create a form element
+    let form = document.createElement('form');
+    form.method = 'POST'; // or 'GET'
+    form.action = 'take_test_student'; // URL where you want to submit the data
+
+    // Append CSRF token
+    let csrfTokenInput = document.createElement('input');
+    csrfTokenInput.type = 'hidden';
+    csrfTokenInput.name = 'csrfmiddlewaretoken';
+    csrfTokenInput.value = getCSRFToken();
+    form.appendChild(csrfTokenInput);
+
+    // Create hidden input field for email
+    let emailInput = document.createElement('input');
+    emailInput.type = 'hidden';
+    emailInput.name = 'email';
+    emailInput.value = email;
+    form.appendChild(emailInput);
+console.log("Roll Number:", rollNumber);
+
+    // Create hidden input field for roll number
+    let rollNumberInput = document.createElement('input');
+    rollNumberInput.type = 'hidden';
+    rollNumberInput.name = 'roll_number';
+    rollNumberInput.value = rollNumber;
+    form.appendChild(rollNumberInput);
+
+    // Create hidden input fields for each data item
+    rowData.forEach(function(dataItem) {
+        let input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = 'data[]'; // Use array notation if submitting multiple rows
+        input.value = dataItem;
+        form.appendChild(input);
+    });
+
+    // Append form to document body and submit it
+    document.body.appendChild(form);
+    form.submit();
+}
+
+
+    // Function to explore row and submit data to URL
+    function exploreRow(email, rowData) {
+        // Create a form element
+        let form = document.createElement('form');
+        form.method = 'POST'; // or 'GET'
+        form.action = 'see-document'; // URL where you want to submit the data
+
+        // Append CSRF token
+        let csrfTokenInput = document.createElement('input');
+        csrfTokenInput.type = 'hidden';
+        csrfTokenInput.name = 'csrfmiddlewaretoken';
+        csrfTokenInput.value = getCSRFToken();
+        form.appendChild(csrfTokenInput);
+
+        // Create hidden input field for email
+        let emailInput = document.createElement('input');
+        emailInput.type = 'hidden';
+        emailInput.name = 'email';
+        emailInput.value = email;
+        form.appendChild(emailInput);
+
+        // Create hidden input fields for each data item
+        rowData.forEach(function(dataItem) {
+            let input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'data[]'; // Use array notation if submitting multiple rows
+            input.value = dataItem;
+            form.appendChild(input);
+        });
+
+        // Append form to document body and submit it
+        document.body.appendChild(form);
+        form.submit();
+    }
+function openTab(evt, tabName) {
+    // Hide all tab content
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Remove 'active' class from all tablinks
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the selected tab content and mark the tablink as active
+    var selectedTab = document.getElementById(tabName);
+    selectedTab.style.display = "block";
+    evt.currentTarget.className += " active";
+
+    // Check if the selected tab is tab2 or tab3
+    if (tabName === 'Tab2' || tabName === 'Tab3') {
+        // Get the values of email and roll_number
+        var email = "{{ email }}";
+        var roll_number = "{{ roll_number }}";
+
+        // Construct the URL with the tab number and the data
+        var url = `/give_data_to_tab1?tab=${tabName}&email=${email}&roll_number=${roll_number}`;
+
+        // Fetch data from the URL
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                // Update the content of the selected tab with the data received
+                selectedTab.innerHTML = data;
+                // If tabName is Tab2, call function to add buttons to the HTML table
+                if (tabName === 'Tab2') {
+                    addButtonsToTable1(tabName);
+                }
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+}
+
+
+
+ window.onload = function() {
+        addButtonsToTable();
+        var email = "{{ email }}";
+        // Set value to email input if it exists
+        var emailInput = document.getElementById("emailInput");
+        if (emailInput) {
+            emailInput.value = email;
+        }
+    };
+</script>
+
+</body>
+</html>

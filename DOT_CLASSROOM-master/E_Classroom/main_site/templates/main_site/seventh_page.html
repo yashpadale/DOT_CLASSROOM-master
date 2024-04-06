@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .tab {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+
+        /* Float the list items side by side */
+        .tab li {
+            float: left;
+        }
+
+        /* Style the links inside the tabs */
+        .tab li a {
+            display: inline-block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        /* Change background color of tabs on hover */
+        .tab li a:hover {
+            background-color: #ddd;
+        }
+
+        /* Create a selected tablink class */
+        .tab li a.active {
+            background-color: #ccc;
+        }
+
+        /* Hide tab content by default */
+        .tabcontent {
+            display: none;
+        }
+
+        /* Show active tab content */
+        .tabcontent.active {
+            display: block;
+        }
+   .container1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container2 {
+  margin-bottom: 20px;
+}
+
+.container2 button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.container2 button:hover {
+  background-color: #45a049;
+}
+
+.container2 input[type="text"] {
+  width: 200px;
+  padding: 5px;
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+.container3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container3 label {
+  margin-top: 10px;
+}
+
+.container3 input[type="date"],
+.container3 input[type="text"] {
+  padding: 8px;
+  margin: 5px;
+  box-sizing: border-box;
+}
+
+#invisibleButton {
+  background-color: #008CBA;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+#invisibleButton:hover {
+  background-color: #005f7a;
+}
+
+#myInput {
+  width: 200px; /* Adjust width as needed */
+  height: 40px; /* Adjust height as needed */
+  border: 1px solid #ccc; /* Add border for better visibility */
+  border-radius: 5px; /* Add border radius for rounded corners */
+  padding: 5px; /* Add padding for spacing */
+  font-size: 16px; /* Adjust font size as needed */
+  color: #333; /* Text color */
+  background-color: #f9f9f9; /* Background color */
+}
+#invisibleButton {
+    visibility: hidden;
+}
+ table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+#fileInputButton {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* No border */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Padding */
+    text-align: center; /* Center text */
+    text-decoration: none; /* No underlining */
+    display: inline-block; /* Display as inline-block */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Margin */
+    cursor: pointer; /* Cursor style */
+    border-radius: 8px; /* Rounded corners */
+    transition-duration: 0.4s; /* Transition duration */
+}
+
+#fileInputButton:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+#selectedFileName {
+    padding: 10px; /* Padding */
+    border: 1px solid #ccc; /* Border */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Include padding and border in the width */
+    cursor: pointer; /* Cursor style */
+    background-color: #f2f2f2; /* Background color */
+}
+
+#selectedFileName:hover {
+    border-color: #999; /* Darker border color on hover */
+}
+.view-statistics-btn {
+    background-color: lightgreen;
+    border: 2px solid lightgreen;
+    border-radius: 20px; /* Adjust the border-radius as needed */
+    padding: 8px 16px; /* Adjust padding as needed */
+    color: black; /* Text color */
+    font-weight: bold; /* Optional: make text bold */
+    cursor: pointer; /* Show pointer on hover */
+}
+
+.view-statistics-btn:hover {
+    background-color: limegreen; /* Change background color on hover */
+    border-color: limegreen; /* Change border color on hover */
+}
+/* CSS */
+.view-btn {
+    background-color: transparent; /* Transparent background */
+    border: 2px solid lightblue; /* Light blue border */
+    border-radius: 20px; /* Circular rectangular border */
+    padding: 8px 16px; /* Adjust padding as needed */
+    color: lightblue; /* Text color */
+    font-weight: bold; /* Optional: make text bold */
+    cursor: pointer; /* Show pointer on hover */
+}
+
+.view-btn:hover {
+    background-color: lightblue; /* Change background color on hover */
+    color: black; /* Change text color on hover */
+}
+#myInput1 {
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 16px;
+    width: 750px; /* Adjust the width as needed */
+    transition: box-shadow 0.3s;
+}
+
+#myInput1:focus {
+    outline: none;
+    box-shadow: 0 0 10px #719ECE; /* Adjust the color as needed */
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 10px #719ECE;
+    }
+    50% {
+        box-shadow: 0 0 20px #719ECE;
+    }
+    100% {
+        box-shadow: 0 0 10px #719ECE;
+    }
+}
+
+#myInput1:focus {
+    animation: glowing 1.5s infinite alternate;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Welcome: {{ email }}</h1>
+    <h1>Class: {{ teacher_class }}</h1>
+    <h1>Subject: {{ teacher_sub }}</h1>
+
+    <!-- Button to trigger file input -->
+    <button id="fileInputButton">Create Users</button>
+    <!-- Hidden file input -->
+    <input type="file" id="fileInput" accept=".xls,.xlsx" style="display:none">
+    <h4>*only those excel file which have two columns of student email and roll number in respective order will be accepted </h4>
+    <!-- Display selected file name -->
+    <input type="text" id="selectedFileName" readonly>
+    <!-- Hidden inputs for email, class, and subject -->
+    <input type="hidden" id="email" value="{{ email }}">
+    <input type="hidden" id="teacherClass" value="{{ teacher_class }}">
+    <input type="hidden" id="teacherSubject" value="{{ teacher_sub }}">
+    <!-- Button to proceed -->
+    <button id="proceedButton" style="display:none">Proceed</button>
+
+    <ul class="tab">
+    <li><a href="#" class="tablinks active" onclick="openTab(event, 'Tab1')">Upload Document</a></li>
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Tab2')">Assignment Statistics</a></li>
+    <li><a href="#" class="tablinks" onclick="openTab(event, 'Tab3')">User-wise Assignment Statistics</a></li>
+        <li><a href="#" class="tablinks" onclick="openTab(event, 'Tab4')">Students' Revision Statistics</a></li>
+</ul>
+<!-- Tab content -->
+<div id="Tab1" class="tabcontent active">
+<div class="container1">
+  <div class="container2">
+    <button onclick="openFileBrowser()">Browse</button>
+    <input type="file" id="fileInput1" style="display: none;">
+    <input type="text" id="myInput" readonly>
+    <button id="invisibleButton">Upload</button>
+
+
+</div>
+
+<div class="container3">
+    <label for="dateInput">Select Date:</label>
+    <input type="date" id="dateInput">
+    <!-- Additional input fields -->
+   <label for="oneMarker">One Marker Count:</label>
+<input type="text" id="oneMarker" value="1"> <!-- Set default value to "1" -->
+<label for="twoMarker">Two Marker Count:</label>
+<input type="text" id="twoMarker" value="2"> <!-- Set default value to "2" -->
+<label for="threeMarker">Three Marker Count:</label>
+<input type="text" id="threeMarker" value="3"> <!-- Set default value to "3" -->
+<label for="fiveMarker">Five Marker Count:</label>
+<input type="text" id="fiveMarker" value="5">
+</div>
+                  <input type="text" id="myInput1" placeholder="If You are uploading a dataset then type the respective question here ...">
+
+
+</div>
+
+</div>
+
+<div id="Tab2" class="tabcontent">
+    <h3>Tab 2 Content</h3>
+    <p>This is the content for Tab 2.</p>
+</div>
+
+<div id="Tab3" class="tabcontent">
+    <h3>Tab 3 Content</h3>
+    <p>This is the content for Tab 3.</p>
+</div>
+    <div id="Tab4" class="tabcontent">
+    <h3>Hare Krishna Prabhu</h3>
+
+</div>
+
+   <script>
+
+// Function to open the file browser
+function openFileBrowser() {
+    document.getElementById('fileInput1').click();
+}
+// Function to handle file selection
+function handleFileSelection() {
+    const fileInput = document.getElementById('fileInput1');
+    const fileNameInput = document.getElementById('myInput');
+    const invisibleButton = document.getElementById('invisibleButton');
+
+    // Check if a file is selected
+    if (fileInput.files.length > 0) {
+        // Update the value of the text input with the selected file name
+        fileNameInput.value = fileInput.files[0].name;
+        // Make the invisible button visible
+        invisibleButton.style.visibility = 'visible';
+    } else {
+        // Clear the value of the text input if no file is selected
+        fileNameInput.value = '';
+        // Hide the invisible button
+        invisibleButton.style.visibility = 'hidden';
+    }
+}
+
+document.getElementById('fileInput1').addEventListener('change', handleFileSelection);
+
+document.getElementById('invisibleButton').addEventListener('click', function() {
+    // Function to get CSRF token
+    function getCSRFToken() {
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            .split('=')[1];
+        return cookieValue;
+    }
+
+    // Get the selected file
+    const fileInput = document.getElementById('fileInput1');
+    const selectedFile = fileInput.files[0];
+    if (!selectedFile) {
+        alert('Please select a file.');
+        return;
+    }
+
+    // Get the selected date
+    const selectedDate = document.getElementById('dateInput').value;
+    if (!selectedDate) {
+        alert('Please select a date.');
+        return;
+    }
+
+    // Get the marker count values
+    const oneMarkerCount = document.getElementById('oneMarker').value;
+    const twoMarkerCount = document.getElementById('twoMarker').value;
+    const threeMarkerCount = document.getElementById('threeMarker').value;
+    const fiveMarkerCount = document.getElementById('fiveMarker').value;
+    const question = document.getElementById('myInput1').value;
+    // Get additional values
+    const email = document.getElementById('email').value;
+    const teacherClass = document.getElementById('teacherClass').value;
+    const teacherSubject = document.getElementById('teacherSubject').value;
+
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    formData.append('selectedDate', selectedDate); // Add the selected date to the FormData
+    formData.append('oneMarkerCount', oneMarkerCount); // Add the oneMarkerCount to the FormData
+    formData.append('twoMarkerCount', twoMarkerCount); // Add the twoMarkerCount to the FormData
+    formData.append('threeMarkerCount', threeMarkerCount); // Add the threeMarkerCount to the FormData
+    formData.append('fiveMarkerCount', fiveMarkerCount); // Add the fiveMarkerCount to the FormData
+    formData.append('email', email); // Add email to the FormData
+    formData.append('teacherClass', teacherClass); // Add teacherClass to the FormData
+    formData.append('teacherSubject', teacherSubject); // Add teacherSubject to the FormData
+    formData.append('question', question); // Add question to the FormData
+
+
+    // Specify the URL to submit the form data
+    const url = 'upload_file';
+
+    // Get CSRF token
+    const csrfToken = getCSRFToken();
+
+    // Perform a fetch request to submit the form data
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('File uploaded successfully!');
+            // Clear the input bar
+            document.getElementById('myInput').value = ''; // Clear the input bar
+            fileInput.value = ''; // Clear the file input
+            document.getElementById('dateInput').value = ''; // Clear the date input
+            document.getElementById('myInput1').value = ''; // Clear the date input
+
+
+        } else {
+            throw new Error('Failed to upload file.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to upload file.');
+    });
+});
+
+
+
+
+
+
+
+function openTab(evt, tabName) {
+    // Hide all tab content
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Remove 'active' class from all tablinks
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the selected tab content and mark the tablink as active
+    var selectedTab = document.getElementById(tabName);
+    selectedTab.style.display = "block";
+    evt.currentTarget.className += " active";
+
+    // Check if the selected tab is tab2 or tab3
+    if (tabName === 'Tab2' || tabName === 'Tab3' || tabName=='Tab4') {
+        // Get the values of email, teacher_class, and teacher_sub
+        var email = "{{ email }}";
+        var teacher_class = "{{ teacher_class }}";
+        var teacher_sub = "{{ teacher_sub }}";
+
+        // Construct the URL with the tab number and the data
+        var url = `/give_data_to_tab?tab=${tabName}&email=${email}&teacher_class=${teacher_class}&teacher_sub=${teacher_sub}`;
+
+        // Fetch data from the URL
+        fetch(url)
+            .then(response => response.text())
+            .then(data => {
+                // Prepend the "{% load static %}" line to the data received
+                data = "{% load static %}\n" + data;
+                // Update the content of the selected tab with the data received
+                selectedTab.innerHTML = data;
+                // Apply CSS styles to the HTML table
+                var style = document.createElement('style');
+                style.innerHTML = `
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    th, td {
+                        border: 1px solid #dddddd;
+                        text-align: left;
+                        padding: 8px;
+                    }
+                    th {
+                        background-color: #f2f2f2;
+                    }
+                `;
+                selectedTab.appendChild(style);
+                if (tabName === 'Tab2') {
+                                    addButtonsToTable1(selectedTab);
+
+                };
+                if (tabName === 'Tab3') {
+                    addButtonsToTable(selectedTab);
+                    // Create a search input element
+                    var searchInput = document.createElement('input');
+                    searchInput.type = 'text';
+                    searchInput.placeholder = 'Enter Desired Value';
+                    // Add CSS styles to the search input
+                    searchInput.style.marginBottom = '10px'; // Adjust as needed
+                    searchInput.style.width = '100%';
+                    searchInput.style.padding = '8px';
+                    searchInput.style.boxSizing = 'border-box';
+                    searchInput.style.border = '1px solid #ccc';
+                    searchInput.style.borderRadius = '4px';
+                    searchInput.style.fontSize = '16px';
+                    // Add event listener to the search input
+                    searchInput.addEventListener('input', function() {
+                        // Get the search value
+                        var searchValue = this.value.trim();
+                        // Filter rows based on the search value
+                        filterTableByDate(selectedTab, searchValue);
+                    });
+                    // Append the search input to the selected tab
+                    selectedTab.insertBefore(searchInput, selectedTab.firstChild);
+                }
+                if (tabName === 'Tab4') {
+      var searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.placeholder = 'Search Student Name';
+    searchInput.style.marginBottom = '10px'; // Adjust as needed
+    searchInput.style.width = '100%';
+    searchInput.style.padding = '8px';
+    searchInput.style.boxSizing = 'border-box';
+    searchInput.style.border = '1px solid #ccc';
+    searchInput.style.borderRadius = '4px';
+    searchInput.style.fontSize = '16px';
+
+    // Add event listener to the search input
+    searchInput.addEventListener('input', function() {
+        // Get the search value
+        var searchValue = this.value.trim();
+        // Filter rows based on the search value
+
+        filterTableByDate1(selectedTab, searchValue);
+    });
+
+    // Append the search input to the selected tab
+    selectedTab.insertBefore(searchInput, selectedTab.firstChild);
+}
+
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    } else if (tabName !== 'Tab1') {
+        // If tab1 is not selected, clear the content of the tab
+        selectedTab.innerHTML = '';
+    }
+}
+
+
+function debounce(func, delay) {
+    let timeoutId;
+    return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+
+// Define a variable to hold the timer ID
+let typingTimer;
+
+
+// Function to send data to backend
+function sendData(tab, searchValue) {
+    // Get the values of email, teacher_class, and teacher_sub
+    var email = "{{ email }}";
+    var teacher_class = "{{ teacher_class }}";
+    var teacher_sub = "{{ teacher_sub }}";
+
+    // Construct the URL with the tab number and the data
+    var url = `/filter_data?email=${email}&teacher_class=${teacher_class}&teacher_sub=${teacher_sub}&search=${searchValue}`;
+
+    // Fetch data from the URL
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            // Update the content of the selected tab with the data received
+            tab.innerHTML = data;
+            // Apply CSS styles to the HTML table
+            var style = document.createElement('style');
+            style.innerHTML = `
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+                th, td {
+                    border: 1px solid #dddddd;
+                    text-align: left;
+                    padding: 8px;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                .search-bar-container {
+                    margin-bottom: 10px; /* Adjust as needed */
+                }
+                .search-bar-container input[type="text"] {
+                    width: 100%;
+                    padding: 8px;
+                    box-sizing: border-box;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-size: 16px;
+                    /* Add any other styles you want for the search bar */
+                }
+            `;
+            tab.appendChild(style);
+
+            // Create a container for the search bar
+            var searchBarContainer = document.createElement('div');
+            searchBarContainer.className = 'search-bar-container';
+
+            // Create the search input element
+            var searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = 'Enter Desired Value';
+
+            // Add an event listener to the search input
+            searchInput.addEventListener('input', function() {
+                // Get the search value
+                var searchValue = this.value.trim();
+                // Call debounced version of filterTableByDate
+                filterTableByDate(tab, searchValue);
+            });
+
+            // Append the search input to the container
+            searchBarContainer.appendChild(searchInput);
+
+            // Append the search bar container to the selected tab
+            tab.insertBefore(searchBarContainer, tab.firstChild);
+
+            // Add buttons to each row
+            addButtonsToTable(tab);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+// JavaScript
+function addButtonsToTable(tab) {
+    var table = tab.querySelector('table');
+    var rows = table.querySelectorAll('tr');
+    // Start iteration from the second row (index 1)
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var cell = document.createElement('td');
+        var button = document.createElement('button');
+        button.textContent = 'View';
+        button.classList.add('view-btn'); // Add a class for easier styling
+        // Attach handleAction function to button click event
+        button.addEventListener('click', handleAction);
+        cell.appendChild(button);
+        row.appendChild(cell);
+    }
+}
+
+
+function addButtonsToTable1(tab) {
+    var table = tab.querySelector('table');
+    var rows = table.querySelectorAll('tr');
+    // Start iteration from the second row (index 1)
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        var cell = document.createElement('td');
+        var button = document.createElement('button');
+        button.textContent = 'View Statistics';
+        button.classList.add('view-statistics-btn'); // Add a class for easier styling
+        // Attach handleAction function to button click event
+        button.addEventListener('click', handleAction1);
+        cell.appendChild(button);
+        row.appendChild(cell);
+    }
+}
+
+
+// Debounced version of filterTableByDate with a delay
+function filterTableByDate(tab, searchValue) {
+    // Clear the previous timer
+    clearTimeout(typingTimer);
+
+    // Start a new timer to send data after a delay
+    typingTimer = setTimeout(() => {
+        // Call sendData after a delay
+        sendData(tab, searchValue);
+    }, 5000); // Adjust the delay as needed
+}
+function sendData1(tab, searchValue) {
+    // Get the values of email, teacher_class, and teacher_sub
+    var email = "{{ email }}";
+    var teacher_class = "{{ teacher_class }}";
+    var teacher_sub = "{{ teacher_sub }}";
+
+    // Construct the URL with the tab number and the data
+    var url = `/filter_data1?email=${email}&teacher_class=${teacher_class}&teacher_sub=${teacher_sub}&search=${searchValue}`;
+
+    // Fetch data from the URL
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            // Update the content of the selected tab with the data received
+            tab.innerHTML = data;
+            // Apply CSS styles to the HTML table
+            var style = document.createElement('style');
+            style.innerHTML = `
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+                th, td {
+                    border: 1px solid #dddddd;
+                    text-align: left;
+                    padding: 8px;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                .search-bar-container {
+                    margin-bottom: 10px; /* Adjust as needed */
+                }
+                .search-bar-container input[type="text"] {
+                    width: 100%;
+                    padding: 8px;
+                    box-sizing: border-box;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-size: 16px;
+                    /* Add any other styles you want for the search bar */
+                }
+            `;
+            tab.appendChild(style);
+
+            // Create a container for the search bar
+            var searchBarContainer = document.createElement('div');
+            searchBarContainer.className = 'search-bar-container';
+
+            // Create the search input element
+            var searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.placeholder = 'Enter Students Name';
+
+            // Add an event listener to the search input
+            searchInput.addEventListener('input', function() {
+                // Get the search value
+                var searchValue = this.value.trim();
+                // Call debounced version of filterTableByDate
+                filterTableByDate1(tab, searchValue);
+            });
+
+            // Append the search input to the container
+            searchBarContainer.appendChild(searchInput);
+
+            // Append the search bar container to the selected tab
+            tab.insertBefore(searchBarContainer, tab.firstChild);
+
+            // Add buttons to each row
+
+        })
+        .catch(error => console.error('Error fetching data:', error));
+}
+
+function filterTableByDate1(tab, searchValue) {
+    // Clear the previous timer
+    clearTimeout(typingTimer);
+
+    // Start a new timer to send data after a delay
+    typingTimer = setTimeout(() => {
+        // Call sendData after a delay
+        sendData1(tab, searchValue);
+    }, 5000); // Adjust the delay as needed
+}
+// Define searchInput element
+var searchInput = document.querySelector('input[type="text"]');
+
+// Event listener for the search input
+searchInput.addEventListener('input', function() {
+    // Get the search value
+    const searchValue = this.value.trim();
+    // Call the debounced version of filterTableByDate
+    filterTableByDate(selectedTab, searchValue);
+});
+
+
+
+
+
+function handleAction1(event) {
+    var button = event.target;
+    // Get the row containing the button
+    var row = button.closest('tr');
+
+    // Extract row data
+    var rowData = [];
+    Array.from(row.cells).forEach(function(cell) {
+        rowData.push(cell.textContent.trim());
+    });
+
+    // Get the values from the elements with IDs directly from the page
+    var email = rowData[0]; // Assuming email is in the first cell
+    var roll_no = rowData[1]; // Assuming roll_no is in the second cell
+    var attentionScore = rowData[2];
+    var watchTime = rowData[3];
+    var document_name = rowData[4];
+    var upload_time = rowData[5];
+    var upload_date = rowData[6];
+
+
+    // Replace placeholders with actual values
+    var teacherEmail = "{{ email }}";
+    var teacherClass = "{{ teacher_class }}";
+    var teacherSub = "{{ teacher_sub }}";
+
+    var data = {
+        email: email,
+        roll_no: roll_no,
+        attentionScore: attentionScore,
+        watchTime: watchTime,
+        document_name: document_name,
+        upload_time: upload_time,
+        upload_date: upload_date,
+        teacher_email: teacherEmail,
+        teacher_class: teacherClass,
+        teacher_sub: teacherSub,
+        rowData: rowData.join(', ') // Joining rowData array into a string
+    };
+
+    // Get CSRF token from cookies
+    var csrftoken = getCookie('csrftoken');
+
+   fetch('/view_answers', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken // Include CSRF token in headers
+    },
+    body: JSON.stringify(data)
+})
+.then(response => {
+    if (response.ok) {
+        // Parse the JSON response
+        return response.json();
+    } else {
+        console.error('Error submitting data:', response.status);
+        throw new Error('Error submitting data:', response.status);
+    }
+})
+.then(data => {
+    // Construct the URL for redirection
+const nextUrl = `/next_page1?email=${encodeURIComponent(data.email)}&teacher_class=${encodeURIComponent(data.teacher_class)}&teacher_sub=${encodeURIComponent(data.teacher_sub)}&row_data=${encodeURIComponent(data.row_data)}&roll_no=${encodeURIComponent(data.roll_no)}&attentionScore=${encodeURIComponent(data.attentionScore)}&watchtime=${encodeURIComponent(data.watchtime)}&document_name=${encodeURIComponent(data.document_name)}&upload_time=${encodeURIComponent(data.upload_time)}&upload_date=${encodeURIComponent(data.upload_date)}&attempt_time=${encodeURIComponent(data.attempt_time)}&attempt_date=${encodeURIComponent(data.attempt_date)}`;
+    // Redirect to the next page
+    window.location.href = nextUrl;
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+
+}
+
+
+
+
+
+
+function handleAction(event) {
+    var button = event.target;
+    // Get the row containing the button
+    var row = button.closest('tr');
+
+    // Extract row data
+    var rowData = [];
+    Array.from(row.cells).forEach(function(cell) {
+        rowData.push(cell.textContent.trim());
+    });
+
+    // Get the values from the elements with IDs directly from the page
+    var email = rowData[0]; // Assuming email is in the first cell
+    var roll_no = rowData[1]; // Assuming roll_no is in the second cell
+    var attentionScore = rowData[2];
+    var watchTime = rowData[3];
+    var document_name = rowData[4];
+    var upload_time = rowData[5];
+    var upload_date = rowData[6];
+    var attempt_time = rowData[7];
+    var attempt_date = rowData[8];
+
+    // Replace placeholders with actual values
+    var teacherEmail = "{{ email }}";
+    var teacherClass = "{{ teacher_class }}";
+    var teacherSub = "{{ teacher_sub }}";
+
+    var data = {
+        email: email,
+        roll_no: roll_no,
+        attentionScore: attentionScore,
+        watchTime: watchTime,
+        document_name: document_name,
+        upload_time: upload_time,
+        upload_date: upload_date,
+        attempt_time: attempt_time,
+        attempt_date: attempt_date,
+        teacher_email: teacherEmail,
+        teacher_class: teacherClass,
+        teacher_sub: teacherSub,
+        rowData: rowData.join(', ') // Joining rowData array into a string
+    };
+
+    // Get CSRF token from cookies
+    var csrftoken = getCookie('csrftoken');
+
+   fetch('/view_answers', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken // Include CSRF token in headers
+    },
+    body: JSON.stringify(data)
+})
+.then(response => {
+    if (response.ok) {
+        // Parse the JSON response
+        return response.json();
+    } else {
+        console.error('Error submitting data:', response.status);
+        throw new Error('Error submitting data:', response.status);
+    }
+})
+.then(data => {
+    // Construct the URL for redirection
+const nextUrl = `/next_page?email=${encodeURIComponent(data.email)}&teacher_class=${encodeURIComponent(data.teacher_class)}&teacher_sub=${encodeURIComponent(data.teacher_sub)}&row_data=${encodeURIComponent(data.row_data)}&roll_no=${encodeURIComponent(data.roll_no)}&attentionScore=${encodeURIComponent(data.attentionScore)}&watchtime=${encodeURIComponent(data.watchtime)}&document_name=${encodeURIComponent(data.document_name)}&upload_time=${encodeURIComponent(data.upload_time)}&upload_date=${encodeURIComponent(data.upload_date)}&attempt_time=${encodeURIComponent(data.attempt_time)}&attempt_date=${encodeURIComponent(data.attempt_date)}`;
+    // Redirect to the next page
+    window.location.href = nextUrl;
+})
+.catch(error => {
+    console.error('Error:', error);
+});
+
+}
+
+
+
+document.addEventListener('click', function(event) {
+    if (event.target && event.target.nodeName == 'BUTTON' && event.target.classList.contains('action-button')) {
+        handleAction(event);
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function getCSRFToken() {
+        var csrfToken = null;
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.startsWith('csrftoken=')) {
+                csrfToken = cookie.substring('csrftoken='.length, cookie.length);
+                break;
+            }
+        }
+        return csrfToken;
+    }
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the specified name
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+
+    // Get the file input element
+    const fileInput = document.getElementById('fileInput');
+    // Get the selected file name input element
+    const selectedFileNameInput = document.getElementById('selectedFileName');
+    // Get the hidden inputs for email, class, and subject
+    const emailInput = document.getElementById('email');
+    const teacherClassInput = document.getElementById('teacherClass');
+    const teacherSubjectInput = document.getElementById('teacherSubject');
+    // Get the proceed button
+    const proceedButton = document.getElementById('proceedButton');
+
+    // Function to handle file selection
+    fileInput.addEventListener('change', function() {
+        const selectedFile = this.files[0];
+        const fileName = selectedFile.name;
+        selectedFileNameInput.value = fileName;
+        // Show the proceed button
+        proceedButton.style.display = 'block';
+    });
+
+    // Add click event listener to the button to trigger file input
+    document.getElementById('fileInputButton').addEventListener('click', function() {
+        fileInput.click();
+    });
+
+    // Add click event listener to the proceed button
+    proceedButton.addEventListener('click', function() {
+        // Get the selected file
+        const selectedFile = fileInput.files[0];
+        if (!selectedFile) {
+            alert('Please select a file.');
+            return;
+        }
+
+        // Create a FormData object
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        // Append email, class, and subject to the FormData
+        formData.append('email', emailInput.value);
+        formData.append('teacherClass', teacherClassInput.value);
+        formData.append('teacherSubject', teacherSubjectInput.value);
+
+        // Specify the URL to submit the file
+        const url = 'create_user';
+
+        // Get CSRF token
+        const csrfToken = getCSRFToken();
+
+        // Perform a fetch request to submit the file
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                // File uploaded successfully, redirect the user
+                const teacherCreateUrl = `teacher-create?email=${emailInput.value}&teacher_class=${teacherClassInput.value}&teacher_sub=${teacherSubjectInput.value}`;
+                window.location.href = teacherCreateUrl; // Redirect to the desired URL
+            } else {
+                throw new Error('Failed to upload file.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to upload file.');
+        });
+    });
+</script>
+
+
+</body>
+</html>

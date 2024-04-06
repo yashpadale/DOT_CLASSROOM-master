@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    <style>
+       /* Reset base styles for consistent rendering across browsers */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Main container styling */
+body {
+  font-family: sans-serif; /* Choose a preferred font family */
+  background-color: #f5f5f5; /* Light background color */
+}
+
+/* Headings */
+h1,
+h2 {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+h1 {
+  font-size: 1.5rem; /* Adjust heading size as needed */
+}
+
+h2 {
+  font-size: 1.25rem; /* Adjust heading size as needed */
+}
+
+/* Information display */
+#email,
+#document_name,
+#teacher_name {
+  font-weight: normal; /* Consistent weight with headings */
+}
+
+/* Question styling */
+#question {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Input field */
+#answerInput {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+  margin-bottom: 1rem;
+}
+
+/* Button */
+#nextQuestionButton {
+  background-color: #4CAF50; /* Green color */
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+#nextQuestionButton:hover {
+  background-color: #3e8e41; /* Darker green on hover */
+}
+
+/* Countdown container */
+#countdownContainer,
+#countdownContainer1 {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #ffecec; /* Light red for warning */
+}
+
+#countdownContainer p,
+#countdownContainer1 p {
+  margin: 0 0 0.5rem;
+  color: #dc3545; /* Red warning color */
+}
+
+#countdown,
+#countdown1 {
+  font-weight: bold;
+  color: #dc3545; /* Same red for countdown time */
+}
+
+/* Hide the extra countdown container initially (if applicable) */
+#countdownContainer1 {
+  display: none;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Email: <span id="email">{{email}}</span></h1>
+    <h1>Document Name: <span id="document_name">{{document_name}}</span></h1>
+    <h1>Teacher Name: <span id="teacher_name">{{teacher_name}}</span></h1>
+    <h2>Question:</h2>
+    <p id="question"></p>
+    <input type="text" id="answerInput" placeholder="Enter your answer">
+    <button id="nextQuestionButton">Next Question</button>
+
+    <!-- Countdown Container -->
+   <div id="countdownContainer" style="display: none;">
+    <p><strong>Warning:</strong> You have not started typing. Time left: <span id="countdown"></span> seconds</p>
+</div>
+
+
+
+    <script>
+        var questions = {{ questions|safe }};
+        var savedResponses = [];
+        var currentQuestionIndex = 0;
+        var typingTimer;
+        var countdownTimer;
+        var doneTypingInterval = 5000;
+        var countdownDuration = 3000;
+
+        function displayQuestion(index) {
+            var question = questions[index];
+            document.getElementById('question').innerText = question.question;
+            // Start the typing timer
+            startTypingTimer(question.category);
+        }
+
+        function displayRandomQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion(currentQuestionIndex);
+                currentQuestionIndex++;
+            } else {
+                document.getElementById('nextQuestionButton').innerText = "Submit";
+                document.getElementById('nextQuestionButton').onclick = sendResponsesToURL;
+            }
+        }
+
+        // Call displayRandomQuestion to display the first question when the page loads
+        displayRandomQuestion();
+
+        // Function to handle next question button click
+        document.getElementById('nextQuestionButton').addEventListener('click', function() {
+            var answerInput = document.getElementById('answerInput').value;
+            // Save the question and its corresponding answer
+            savedResponses.push({question: document.getElementById('question').innerText, answer: answerInput});
+            // Clear the input field
+            document.getElementById('answerInput').value = '';
+            // Display the next random question or change the button text to "Submit"
+            displayRandomQuestion();
+        });
+
+        // Function to start the typing timer
+        function startTypingTimer(category) {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(function() {
+        handleNoTyping(category);
+        // Start countdown timer
+        startCountdown(category);
+    }, doneTypingInterval);
+}
+
+    // Function to handle when the user starts typing
+function handleTyping() {
+    // Clear the typing timer and countdown timer when the user starts typing
+    clearTimeout(typingTimer);
+    clearTimeout(countdownTimer);
+    document.getElementById('countdownContainer').classList.remove('show');
+
+    // Check if the length of the input value remains constant for 3 seconds
+    var previousLength = 0;
+    var currentLength = document.getElementById('answerInput').value.length;
+    typingTimer = setTimeout(function() {
+        // Start the timers if the length remains constant for 3 seconds
+        if (previousLength === currentLength) {
+        var category='sorry_don_T_know'
+            handleNoTyping(category);
+        }
+    }, 3000);
+    // Update the previous length
+    previousLength = currentLength;
+}
+
+// Function to handle when the user doesn't start typing
+function handleNoTyping(category) {
+    console.log("User didn't start typing. Category: " + category);
+
+    // Show countdown container
+    document.getElementById('countdownContainer').classList.add('show');
+    startCountdown(category);
+}
+
+
+
+function showCountdownContainer(text) {
+    var countdownContainer = document.getElementById('countdownContainer');
+    var countdownElement = document.getElementById('countdown');
+
+    // Set the text for the countdown container
+    countdownElement.innerText = text;
+
+    // Show the countdown container
+    countdownContainer.style.display = 'block';
+
+    // Hide the countdown container after 3 seconds
+    setTimeout(function() {
+        countdownContainer.style.display = 'none';
+    }, 3000); // 3000 milliseconds = 3 seconds
+}
+
+
+var countdownDuration = 3000; // 3000 milliseconds (3 seconds)
+
+// Function to start the countdown
+function startCountdown(category) {
+    var countdownElement = document.getElementById('countdown');
+    var countdownContainer = document.getElementById('countdownContainer');
+
+    // Function to update countdown timer
+   // Function to update countdown timer
+function updateCountdown() {
+    var secondsLeft = Math.ceil(countdownDuration / 1000); // Convert milliseconds to seconds and round up
+    countdownElement.innerText = secondsLeft; // Update countdown timer
+}
+
+
+    // Update countdown immediately
+    updateCountdown();
+
+    // Update countdown every second
+    var countdownInterval = setInterval(function() {
+        countdownDuration -= 1000; // Decrement countdown duration by 1 second
+        updateCountdown();
+
+        if (countdownDuration <= 0) {
+            clearInterval(countdownInterval);
+            countdownElement.innerText = '';
+
+            // Hide the countdown container
+            countdownContainer.style.display = 'none';
+
+            // Log 'Time over' to the console
+            console.log('Time over');
+}
+
+
+
+// Function to get CSRF token from cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the CSRF token name
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Disable right-click context menu
+
+
+
+
+        // Event listener to handle typing
+        document.getElementById('answerInput').addEventListener('input', handleTyping);
+
+       // Function to send saved responses to a URL using Fetch API
+function sendResponsesToURL() {
+    // Get CSRF token from the cookie
+    var csrftoken = getCookie('csrftoken');
+
+    var data = {
+        email: "{{ email }}",
+        document_name: "{{ document_name }}",
+        teacher_name: "{{ teacher_name }}",
+        responses: savedResponses
+    };
+
+    fetch('submitted_answers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken // Include CSRF token in the headers
+        },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            // Parse response JSON
+            return response.json();
+        } else {
+            throw new Error('Failed to send data.');
+        }
+    }).then(data => {
+        console.log('Response:', data);
+        // Check if the response contains a URL
+        if (data && data.redirect_url) {
+            // Redirect to the URL returned by the server
+            window.location.href = data.redirect_url;
+        } else {
+            // Handle other scenarios if needed
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+        // Function to get CSRF token from cookie
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if the cookie name matches the CSRF token name
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+
+</body>
+</html>

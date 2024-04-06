@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hair Loss</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .otp-container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input {
+            margin: 5px;
+            width: 40px;
+            height: 40px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #3c00a0;
+        }
+
+        #verifyContainer {
+            margin-top: 20px;
+        }
+
+        #verifyButton {
+            background-color: #3c00a0;;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        #verifyButton:hover {
+            background-color: #3c00a0;;
+        }
+
+        #verifyButton.active {
+            background-color: #32cd32;
+        }
+    </style>
+</head>
+<body>
+
+<div class="otp-container">
+    <p>Enter OTP sent to your email: {{ email }}</p>
+    <form action="/verify_otp" method="post" id="otpForm">
+        {% csrf_token %}
+        <input type="hidden" name="email" value="{{ email }}">
+        <input type="text" maxlength="1" name="digit1" id="digit1">
+        <input type="text" maxlength="1" name="digit2" id="digit2">
+        <input type="text" maxlength="1" name="digit3" id="digit3">
+        <input type="text" maxlength="1" name="digit4" id="digit4">
+        <div id="verifyContainer">
+            <button id="verifyButton">Verify</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function verifyOtp() {
+        var digit1 = document.getElementById('digit1').value;
+        var digit2 = document.getElementById('digit2').value;
+        var digit3 = document.getElementById('digit3').value;
+        var digit4 = document.getElementById('digit4').value;
+
+        if (digit1 && digit2 && digit3 && digit4) {
+            document.getElementById('otpForm').submit();
+        } else {
+            alert('Please fill in all OTP fields.');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var digitInputs = document.querySelectorAll('input[id^="digit"]');
+        var verifyButton = document.getElementById('verifyButton');
+
+        digitInputs[0].focus();
+
+        digitInputs.forEach(function (input, index, array) {
+            input.addEventListener('input', function () {
+                if (this.value.length === 1) {
+                    if (index < array.length - 1) {
+                        array[index + 1].focus();
+                    } else {
+                        verifyButton.classList.add('active');
+                    }
+                } else {
+                    verifyButton.classList.remove('active');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

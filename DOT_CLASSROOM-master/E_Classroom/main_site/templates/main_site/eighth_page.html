@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ email }}</h1>
+    <form action="create_class" method="post">
+        {% csrf_token %}
+        <!-- Include hidden input for email -->
+        <input type="hidden" id="email" name="email" value="{{ email }}">
+
+        <label for="className">Class Name:</label>
+        <input type="text" id="className" name="className"><br><br>
+
+        <label for="subjectName">Subject Name:</label>
+        <input type="text" id="subjectName" name="subjectName"><br><br>
+
+        <!-- Your other HTML content here -->
+        <button type="submit">Proceed</button>
+    </form>
+</body>
+</html>
